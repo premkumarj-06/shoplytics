@@ -14,11 +14,11 @@ def get_connection():
     # DB_PORT = os.getenv("port")
     # DB_HOST = os.getenv("host")
 
-    DB_NAME = st.secrets("dbname")
-    DB_USER = st.secrets("user")
-    DB_PASS = st.secrets("password")
-    DB_HOST = st.secrets("host")
-    DB_PORT = st.secrets("port")
+    DB_NAME = st.secrets["dbname"]
+    DB_USER = st.secrets["user"]
+    DB_PASS = st.secrets["password"]
+    DB_HOST = st.secrets["host"]
+    DB_PORT = st.secrets["port"]
 
     try:
         connection = ps.connect(database=DB_NAME,
