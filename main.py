@@ -2,7 +2,6 @@ import streamlit as st
 import psycopg2 as ps
 from dotenv import load_dotenv
 import os
-# import psycopg2
 
 
 
@@ -12,12 +11,17 @@ def get_connection():
     load_dotenv()
     # connection = None
     print("Connecting ...")
-    DB_NAME = os.getenv("dbname")
 
-    DB_USER = os.getenv("user")
-    DB_PASS = os.getenv("password")
-    DB_HOST = os.getenv("host")
-    DB_PORT = os.getenv("port")
+    # DB_PASS = os.getenv("password")
+    # DB_USER = os.getenv("user")
+    # DB_PORT = os.getenv("port")
+    # DB_HOST = os.getenv("host")
+
+    DB_NAME = st.secrets("dbname")
+    DB_USER = st.secrets("user")
+    DB_PASS = st.secrets("password")
+    DB_HOST = st.secrets("host")
+    DB_PORT = st.secrets("port")
 
     try:
         connection = ps.connect(database=DB_NAME,
