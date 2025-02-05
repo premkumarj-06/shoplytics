@@ -1,14 +1,11 @@
 import streamlit as st
 import psycopg2 as ps
-from dotenv import load_dotenv
-import os
 
 
 
 
 
 def get_connection():
-    load_dotenv()
     # connection = None
     print("Connecting ...")
 
