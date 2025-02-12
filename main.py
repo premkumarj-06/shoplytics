@@ -140,8 +140,7 @@ with st.form("Bill Invoice", clear_on_submit=True):
     )
     payment_type = "cash"
     if payment_method == ":blue[Google Pay 📱 ]":
-        payment_type= "upi"
-        st.subheader(payment_type)
+        payment_type = "upi"
 
     try:
         profit = int(selling_price) - int(product_amount)
