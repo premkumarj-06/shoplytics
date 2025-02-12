@@ -1,17 +1,10 @@
 import time
 import streamlit as st
 import psycopg2 as ps
-# from dotenv import load_dotenv
 import os
 import pandas as pd
 
 def get_connection():
-    # # load_dotenv()
-    # DB_NAME = os.getenv("dbname")
-    # DB_USER = os.getenv("user")
-    # DB_PASS = os.getenv("password")
-    # DB_HOST = os.getenv("host")
-    # DB_PORT = os.getenv("port")
     DB_NAME = st.secrets["dbname"]
     DB_USER = st.secrets["user"]
     DB_PASS = st.secrets["password"]
@@ -32,18 +25,18 @@ def close_connection(connection):
     if connection:
         connection.close()
 
-def insert_data(product_name, product_category, price, selling_price, profit):
+def insert_data(product_name, product_category, price, selling_price, profit, payment_type):
     connection = get_connection()
     if not connection:
         return False
 
     insert_query = """
-    INSERT INTO bills_data(name, category, price, selling_price, profit) 
-    VALUES(%s, %s, %s, %s, %s)
+    INSERT INTO bills_data(name, category, price, selling_price, profit, payment_method) 
+    VALUES(%s, %s, %s, %s, %s,%s)
     """
     try:
         cursor = connection.cursor()
-        cursor.execute(insert_query, (product_name, product_category, price, selling_price, profit))
+        cursor.execute(insert_query, (product_name, product_category, price, selling_price, profit, payment_type))
         connection.commit()
         cursor.close()
         close_connection(connection)
@@ -134,8 +127,21 @@ with st.form("Bill Invoice", clear_on_submit=True):
     product_category = st.selectbox("Product Category", ("Temper glass","Phone Case","Earphone / Headphone", "Combo","Service 🛠","CC Pin", "Battery",
                                                          "CC Board", "V8 Charger","V8 Cable","Power Bank","Bike Mobile Stand","Smart Watch","Iphone Cable", "Type C Cable", "Type C Charger", "Keypad Charger",
                                                          "Neckband","Airpod","Keypad Phone", "Speaker", "Other"))
-    product_amount = st.text_input("Buying Price", "")
+    product_amount = st.text_input("Price", "")
     selling_price = st.text_input("Selling Price", "")
+
+    payment_method = st.radio(
+        "Payment Mode",
+        [":blue[Cash 💸]",":blue[Google Pay 📱 ]"],
+        captions=[
+            " ",
+            " ",
+        ]
+    )
+    payment_type = "cash"
+    if payment_method == ":blue[Google Pay 📱 ]":
+        payment_type= "upi"
+        st.subheader(payment_type)
 
     try:
         profit = int(selling_price) - int(product_amount)
@@ -148,7 +154,7 @@ with st.form("Bill Invoice", clear_on_submit=True):
 
     if submit_button and product_name.strip() != "" and product_category.strip() != "":
         is_entered=True
-        is_saved = insert_data(product_name, product_category, product_amount, selling_price, profit)
+        is_saved = insert_data(product_name, product_category, product_amount, selling_price, profit, payment_type)
         if is_saved:
             st.session_state["submitted"] = True
             st.toast(f"{product_name} Saved to database! 😎", icon="✅")
