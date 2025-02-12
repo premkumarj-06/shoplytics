@@ -132,7 +132,7 @@ st.write("### Bill Invoice")
 with st.form("Bill Invoice", clear_on_submit=True):
     product_name = st.text_input("Product/Service Name")
     product_category = st.selectbox("Product Category", ("Phone Case", "Temper glass", "Earphone", "Speaker", "Other"))
-    product_amount = st.text_input("Price", "")
+    product_amount = st.text_input("Buying Price", "")
     selling_price = st.text_input("Selling Price", "")
 
     try:
