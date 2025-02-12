@@ -131,8 +131,8 @@ is_entered = False
 st.write("### Bill Invoice")
 with st.form("Bill Invoice", clear_on_submit=True):
     product_name = st.text_input("Product/Service Name")
-    product_category = st.selectbox("Product Category", ("Temper glass","Phone Case","Earphone / Headphone", "Combo", "Service","CC Pin","Battery",
-                                                         "CC Board", "V8 Charger","V8 Cable", "Type C Cable", "Type C Charger", "Keypad Charger",
+    product_category = st.selectbox("Product Category", ("Service🛠", "Temper glass","Phone Case","Earphone / Headphone", "Combo","CC Pin", "Battery",
+                                                         "CC Board", "V8 Charger","V8 Cable","Power Bank","Bike Mobile Stand","Smart Watch","Iphone Cable", "Type C Cable", "Type C Charger", "Keypad Charger",
                                                          "Neckband","Airpod","Keypad Phone", "Speaker", "Other"))
     product_amount = st.text_input("Buying Price", "")
     selling_price = st.text_input("Selling Price", "")
