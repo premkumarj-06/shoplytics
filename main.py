@@ -76,6 +76,21 @@ def fetch_and_render_metrics():
 
     diff = cur_profit - prev_profit
     st.metric(label=f"Yesterday: {prev_profit} ₹", value=f"Today: {cur_profit} ₹", delta=f"difference: {diff} ₹", border=True)
+    cursor.execute("""SELECT * FROM BILLS_DATA""")
+    all_data = cursor.fetchall()
+    columns = ["ID", "Timestamp", "Product Name", "Category", "Cost Price", "Selling Price", "Profit", "Payment Mode"]
+    all_df = pd.DataFrame(all_data, columns=columns)
+    all_new_df = all_df[["Category", "Profit", "Selling Price"]]
+
+
+    total_revenue = all_new_df["Profit"].sum()
+    total_turnover = all_new_df["Selling Price"].sum()
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric(label=f"Yesterday: {prev_profit} ₹", value=f"Today: {cur_profit} ₹", delta=f"difference: {diff} ₹", border=True)
+    with col2:
+        st.subheader(f"Total Profit: {total_revenue}")
+        st.subheader(f"Total TurnOver: {total_turnover}")
     close_connection(connection)
 
 # Function to fetch and render data (st.dataframe)
